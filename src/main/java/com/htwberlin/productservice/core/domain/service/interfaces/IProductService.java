@@ -1,7 +1,7 @@
-package com.example.demo.core.domain.service.interfaces;
+package com.htwberlin.productservice.core.domain.service.interfaces;
 
-import com.example.demo.core.domain.model.Product;
-import com.example.demo.core.domain.service.exception.ProductNotFoundException;
+import com.htwberlin.productservice.core.domain.model.Product;
+import com.htwberlin.productservice.core.domain.service.exception.ProductNotFoundException;
 
 import java.util.UUID;
 

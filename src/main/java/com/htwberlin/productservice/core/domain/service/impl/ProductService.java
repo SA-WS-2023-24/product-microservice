@@ -1,9 +1,9 @@
-package com.example.demo.core.domain.service.impl;
+package com.htwberlin.productservice.core.domain.service.impl;
 
-import com.example.demo.core.domain.model.Product;
-import com.example.demo.core.domain.service.exception.ProductNotFoundException;
-import com.example.demo.core.domain.service.interfaces.IProductRepository;
-import com.example.demo.core.domain.service.interfaces.IProductService;
+import com.htwberlin.productservice.core.domain.model.Product;
+import com.htwberlin.productservice.core.domain.service.exception.ProductNotFoundException;
+import com.htwberlin.productservice.core.domain.service.interfaces.IProductRepository;
+import com.htwberlin.productservice.core.domain.service.interfaces.IProductService;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

@@ -1,4 +1,4 @@
-package com.example.demo.core.domain.service.exception;
+package com.htwberlin.productservice.core.domain.service.exception;
 
 import java.util.UUID;
 

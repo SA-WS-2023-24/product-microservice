@@ -1,4 +1,4 @@
-package com.example.demo.core.domain.model;
+package com.htwberlin.productservice.core.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;

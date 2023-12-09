@@ -1,8 +1,8 @@
-package com.example.demo.core.domain.service.impl;
+package com.htwberlin.productservice.core.domain.service.impl;
 
-import com.example.demo.core.domain.model.Review;
-import com.example.demo.core.domain.service.interfaces.IReviewRepository;
-import com.example.demo.core.domain.service.interfaces.IReviewService;
+import com.htwberlin.productservice.core.domain.model.Review;
+import com.htwberlin.productservice.core.domain.service.interfaces.IReviewRepository;
+import com.htwberlin.productservice.core.domain.service.interfaces.IReviewService;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;

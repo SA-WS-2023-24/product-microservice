@@ -1,6 +1,6 @@
-package com.example.demo.user.advice;
+package com.htwberlin.productservice.user.advice;
 
-import com.example.demo.core.domain.service.exception.ProductNotFoundException;
+import com.htwberlin.productservice.core.domain.service.exception.ProductNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

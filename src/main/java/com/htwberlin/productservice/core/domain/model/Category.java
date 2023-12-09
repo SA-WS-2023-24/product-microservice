@@ -1,4 +1,4 @@
-package com.example.demo.core.domain.model;
+package com.htwberlin.productservice.core.domain.model;
 
 public enum Category {
 

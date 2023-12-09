@@ -8,9 +8,9 @@
 		<version>3.0.1</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.htw-berlin</groupId>
-	<artifactId>sa-webshop</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<groupId>com.htwberlin</groupId>
+	<artifactId>product-service</artifactId>
+	<version>0.0.1</version>
 	<name>webshop</name>
 	<description>PC parts webshop</description>
 	<properties>

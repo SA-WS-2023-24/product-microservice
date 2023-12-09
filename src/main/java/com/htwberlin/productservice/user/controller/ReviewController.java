@@ -1,7 +1,7 @@
-package com.example.demo.user.controller;
+package com.htwberlin.productservice.user.controller;
 
-import com.example.demo.core.domain.model.Review;
-import com.example.demo.core.domain.service.interfaces.IReviewService;
+import com.htwberlin.productservice.core.domain.model.Review;
+import com.htwberlin.productservice.core.domain.service.interfaces.IReviewService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;

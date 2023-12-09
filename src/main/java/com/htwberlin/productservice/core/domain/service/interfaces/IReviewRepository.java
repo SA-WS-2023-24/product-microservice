@@ -1,6 +1,6 @@
-package com.example.demo.core.domain.service.interfaces;
+package com.htwberlin.productservice.core.domain.service.interfaces;
 
-import com.example.demo.core.domain.model.Review;
+import com.htwberlin.productservice.core.domain.model.Review;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.UUID;
