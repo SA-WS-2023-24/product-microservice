@@ -15,7 +15,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.math.BigDecimal;
@@ -25,10 +24,12 @@ import java.util.Random;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
@@ -53,7 +54,7 @@ public class ProductControllerTest {
                 .build();
         Category[] categories = Category.values();
 
-        // 20 dummy products
+        // 20 random products
         for (int i = 0; i < 20; i++) {
             int random = new Random().nextInt(Category.values().length);
             Product product = Product.builder()
@@ -71,34 +72,72 @@ public class ProductControllerTest {
 
     @Test
     void getAllProductsTest() throws Exception {
-
-        // setup
         when(productService.getAllProducts()).thenReturn(products);
+        String productsJson = objectMapper.writeValueAsString(products);
 
-        // exercise
         MvcResult res = mockMvc.perform(get("/v1/products")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
 
         String responseBody = res.getResponse().getContentAsString();
-        List<Product> resProducts = objectMapper.readValue(responseBody, objectMapper.getTypeFactory().constructCollectionType(List.class, Product.class));
 
-        // verify
-        assertEquals(products, resProducts);
+        assertEquals(productsJson, responseBody);
     }
 
     @Test
-    void getProductTest() throws Exception {
-        // setup
+    void getProductNotFoundTest() throws Exception {
         UUID randomUuid = UUID.randomUUID();
         when(productService.getProduct(any(UUID.class))).thenThrow(new ProductNotFoundException(randomUuid));
 
-        // exercise and verify
         mockMvc.perform(get("/v1/product/{id}", randomUuid)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
                 .andExpect(content().string("Could not find product " + randomUuid))
+                .andReturn();
+    }
+
+
+    @Test
+    void getProductFoundTest() throws Exception {
+        Product product = products.get(new Random().nextInt(products.size()));
+        String productJson = objectMapper.writeValueAsString(product);
+        when(productService.getProduct(eq(product.getId()))).thenReturn(product);
+
+        MvcResult result = mockMvc.perform(get("/v1/product/{id}", product.getId())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String content = result.getResponse().getContentAsString();
+
+        assertEquals(productJson, content);
+    }
+
+    @Test
+    void postProductTest() throws Exception {
+
+        Product product = products.get(new Random().nextInt(products.size()));
+        String productJson = objectMapper.writeValueAsString(product);
+        when(productService.createProduct(product)).thenReturn(product);
+
+        MvcResult result = mockMvc.perform(post("/v1/product")
+                        .content(objectMapper.writeValueAsString(product))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String content = result.getResponse().getContentAsString();
+
+        assertEquals(productJson, content);
+    }
+
+
+    @Test
+    void postProductBadRequestTest() throws Exception {
+        mockMvc.perform(post("/v1/product")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
                 .andReturn();
     }
 }
