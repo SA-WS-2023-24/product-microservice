@@ -16,5 +16,4 @@ public class ProductNotFoundAdvice {
     String productNotFoundHandler(ProductNotFoundException ex){
         return ex.getMessage();
     }
-
 }
