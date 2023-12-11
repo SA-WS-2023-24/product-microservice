@@ -2,6 +2,7 @@ package com.htwberlin.productservice.user.controller;
 
 import com.htwberlin.productservice.core.domain.model.Product;
 import com.htwberlin.productservice.core.domain.service.interfaces.IProductService;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;

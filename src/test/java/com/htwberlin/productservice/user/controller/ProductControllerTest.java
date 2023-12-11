@@ -8,6 +8,7 @@ import com.htwberlin.productservice.core.domain.service.impl.ProductService;
 import com.htwberlin.productservice.user.advice.ProductNotFoundAdvice;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestTemplate;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -27,8 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -122,7 +122,7 @@ public class ProductControllerTest {
         when(productService.createProduct(product)).thenReturn(product);
 
         MvcResult result = mockMvc.perform(post("/v1/product")
-                        .content(objectMapper.writeValueAsString(product))
+                        .content(productJson)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -139,5 +139,49 @@ public class ProductControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 .andReturn();
+    }
+
+    @Test
+    void putBadRequestTest() throws Exception {
+        mockMvc.perform(put("/v1/product")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andReturn();
+    }
+
+    @Test
+    void putProductTest() throws Exception {
+        Product product = products.get(products.size() / 2);
+        String productJson = objectMapper.writeValueAsString(product);
+        when(productService.updateProduct(any(Product.class))).thenReturn(product);
+
+        MvcResult result = mockMvc.perform(put("/v1/product")
+                        .content(productJson)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String responseContent = result.getResponse().getContentAsString();
+
+        assertEquals(productJson, responseContent);
+    }
+
+    @Test
+    void putProductNotFoundTest() throws Exception {
+        Product product = products.get(0);
+        String productJson = objectMapper.writeValueAsString(product);
+        String notFoundResponse = "Could not find product " + product.getId().toString();
+
+        when(productService.updateProduct(any(Product.class))).thenThrow(new ProductNotFoundException(product.getId()));
+
+        MvcResult result = mockMvc.perform(put("/v1/product")
+                        .content(productJson)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andReturn();
+
+        String responseContent = result.getResponse().getContentAsString();
+
+        assertEquals(notFoundResponse, responseContent);
     }
 }
