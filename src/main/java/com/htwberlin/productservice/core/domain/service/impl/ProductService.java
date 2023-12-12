@@ -45,5 +45,4 @@ public class ProductService implements IProductService {
     public Iterable<Product> getAllProducts() {
         return productRepository.findAll();
     }
-
 }

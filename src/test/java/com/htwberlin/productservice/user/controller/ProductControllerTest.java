@@ -8,7 +8,6 @@ import com.htwberlin.productservice.core.domain.service.impl.ProductService;
 import com.htwberlin.productservice.user.advice.ProductNotFoundAdvice;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestTemplate;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
