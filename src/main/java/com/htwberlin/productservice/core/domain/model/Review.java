@@ -27,8 +27,8 @@ public class Review {
     private int stars;
     private LocalDateTime publishedDate;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "product_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(foreignKey = @ForeignKey(name = "product_id"))
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private Product product;
