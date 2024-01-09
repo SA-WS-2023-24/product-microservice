@@ -33,3 +33,7 @@ build/
 
 ### OS X ###
 .DS_Store
+
+
+# Ignore DevSpace cache and log folder
+.devspace/
