@@ -1,0 +1,16 @@
+apiVersion: skaffold/v4beta8
+kind: Config
+metadata:
+  name: product-service
+build:
+  artifacts:
+    - image: krisg91/product-service
+      docker:
+        dockerfile: Dockerfile
+  local: {}
+manifests:
+  rawYaml:
+    - k8s/app-deployment.yaml
+    - k8s/app-service.yaml
+    - k8s/psql-deployment.yaml
+    - k8s/psql-service.yaml
