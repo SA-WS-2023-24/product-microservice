@@ -5,14 +5,15 @@ import com.htwberlin.productservice.core.domain.model.Product;
 import com.htwberlin.productservice.core.domain.model.Review;
 import com.htwberlin.productservice.core.domain.service.interfaces.IProductRepository;
 import com.htwberlin.productservice.core.domain.service.interfaces.IReviewRepository;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.Random;
 import java.util.UUID;
+
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 
 @Component
 public class DataLoader implements CommandLineRunner {
@@ -23,7 +24,6 @@ public class DataLoader implements CommandLineRunner {
         this.repository = repository;
         this.reviews = reviews;
     }
-
 
     @Override
     public void run(String... args) throws Exception {
@@ -48,7 +48,7 @@ public class DataLoader implements CommandLineRunner {
                 int year = new Random().nextInt(2024);
                 Month[] months = Month.values();
                 Month month = months[new Random().nextInt(months.length)];
-                int day = new Random().nextInt(29);
+                int day = new Random().nextInt(28) + 1;
                 int hour = new Random().nextInt(24);
                 int minute = new Random().nextInt(60);
 
@@ -57,9 +57,8 @@ public class DataLoader implements CommandLineRunner {
                         .userId(UUID.randomUUID())
                         .content("Important review")
                         .stars(new Random().nextInt(5))
-                        .publishedDate(LocalDateTime.of(year, month, day, hour, minute))
-                        .product(productForReview)
-                        .build();
+                        .publishedDate(LocalDateTime.of(year, month, day, hour,
+                                minute)).product(productForReview).build();
 
                 System.out.println(review);
 
