@@ -10,7 +10,6 @@ build:
   local: {}
 manifests:
   rawYaml:
-    - k8s/app-deployment.yaml
-    - k8s/app-service.yaml
-    - k8s/psql-deployment.yaml
-    - k8s/psql-service.yaml
+    - k8s/app*
+    - k8s/psql*
+    - k8s/rabbit*

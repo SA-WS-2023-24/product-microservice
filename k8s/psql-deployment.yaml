@@ -34,7 +34,7 @@ spec:
       containers:
         - name: postgres
           image: postgres:12
-          imagePullPolicy: "IfNotPresent"
+          imagePullPolicy: IfNotPresent
           env:
             - name: POSTGRES_USER
               value: postgres
