@@ -16,4 +16,6 @@ public interface IProductService
     Product getProduct(UUID id) throws ProductNotFoundException;
 
     Iterable<Product> getAllProducts();
+
+    Iterable<Product> getProductsByKeyword(String keyword);
 }

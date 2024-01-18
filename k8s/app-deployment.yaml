@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: product-service
-          image: krisg91/product-service:latest
+          image: pcpartsshop/product-service:latest
           imagePullPolicy: IfNotPresent
           env:
             - name: SPRING_DATASOURCE_URL

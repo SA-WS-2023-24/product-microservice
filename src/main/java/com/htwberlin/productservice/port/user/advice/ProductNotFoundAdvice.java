@@ -1,4 +1,4 @@
-package com.htwberlin.productservice.user.advice;
+package com.htwberlin.productservice.port.user.advice;
 
 import com.htwberlin.productservice.core.domain.service.exception.ProductNotFoundException;
 import org.springframework.http.HttpStatus;

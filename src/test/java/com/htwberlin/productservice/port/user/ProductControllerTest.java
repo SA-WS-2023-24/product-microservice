@@ -1,11 +1,11 @@
-package com.htwberlin.productservice.user.controller;
+package com.htwberlin.productservice.port.user;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.htwberlin.productservice.core.domain.model.Category;
 import com.htwberlin.productservice.core.domain.model.Product;
 import com.htwberlin.productservice.core.domain.service.exception.ProductNotFoundException;
 import com.htwberlin.productservice.core.domain.service.impl.ProductService;
-import com.htwberlin.productservice.user.advice.ProductNotFoundAdvice;
+import com.htwberlin.productservice.port.user.advice.ProductNotFoundAdvice;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

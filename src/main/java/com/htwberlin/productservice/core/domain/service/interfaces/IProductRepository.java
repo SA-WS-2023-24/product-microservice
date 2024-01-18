@@ -7,6 +7,7 @@ import java.util.UUID;
 
 public interface IProductRepository extends CrudRepository<Product, UUID> {
 
+    Iterable<Product> findByNameContainingIgnoreCase(String keyword);
 }
 
 
