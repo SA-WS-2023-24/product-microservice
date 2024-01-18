@@ -3,19 +3,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: spring-boot-app
+  name: product-service
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: spring-boot-app
+      app: product-service
   template:
     metadata:
       labels:
-        app: spring-boot-app
+        app: product-service
     spec:
       containers:
-        - name: spring-boot-app
+        - name: product-service
           image: krisg91/product-service:latest
           imagePullPolicy: IfNotPresent
           env:
@@ -25,5 +25,9 @@ spec:
               value: postgres
             - name: SPRING_DATASOURCE_PASSWORD
               value: postgres
+            - name: SPRING_RABBITMQ_HOST
+              value: rabbitmq
+            - name: SPRING_RABBITMQ_PORT
+              value: "5672"
           ports:
             - containerPort: 8080
