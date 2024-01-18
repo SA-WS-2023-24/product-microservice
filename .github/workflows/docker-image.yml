@@ -1,9 +1,9 @@
 name: Docker Image CI
 
 on:
-  push:
-    branches: [ "main" ]
   pull_request:
+    types:
+      - closed
     branches: [ "main" ]
   workflow_dispatch:
   
@@ -25,4 +25,4 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           push: true
-          tags: krisg91/product-service:latest
+          tags: pcpartsshop/product-service:latest
