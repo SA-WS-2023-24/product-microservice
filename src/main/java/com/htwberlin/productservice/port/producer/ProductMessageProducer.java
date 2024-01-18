@@ -27,12 +27,10 @@ public class ProductMessageProducer {
         String productId = productJson.get("productId").toString();
         int quantity = Integer.parseInt(productJson.get("quantity").toString());
 
-        // if not found should return 404
         Product product = productService.getProduct(UUID.fromString(productId));
 
         ProductMessage productMessage = Mapper.productToProductMessage(product, quantity, basketId);
 
-        // TODO add the exchange and the queue when rabbitmq is configured
         productTemplate.convertAndSend(productMessage);
 
         return ResponseEntity.ok().build();
