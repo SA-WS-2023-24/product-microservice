@@ -11,9 +11,9 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMQConfig {
 
-    public static final String ADD_PRODUCT_QUEUE = "add_product_topic";
-    public static final String UPDATE_PRODUCT_QUEUE = "update_product_topic";
-    public static final String REMOVE_PRODUCT_QUEUE = "remove_product_topic";
+    public static final String ADD_PRODUCT_QUEUE = "add_product_queue";
+    public static final String UPDATE_PRODUCT_QUEUE = "update_product_queue";
+    public static final String REMOVE_PRODUCT_QUEUE = "remove_product_queue";
     public static final String PRODUCT_EXCHANGE = "product_exchange";
 
     @Bean

@@ -1,5 +1,6 @@
 package com.htwberlin.productservice.port.producer;
 
+import com.htwberlin.productservice.config.MQConfig.RabbitMQConfig;
 import com.htwberlin.productservice.core.domain.model.Product;
 import com.htwberlin.productservice.core.domain.service.impl.ProductService;
 import com.htwberlin.productservice.port.mapper.Mapper;
@@ -31,7 +32,7 @@ public class ProductMessageProducer {
 
         ProductMessage productMessage = Mapper.productToProductMessage(product, quantity, basketId);
 
-        productTemplate.convertAndSend(productMessage);
+        productTemplate.convertAndSend(RabbitMQConfig.PRODUCT_EXCHANGE, "product.add", productMessage);
 
         return ResponseEntity.ok().build();
     }
@@ -50,7 +51,7 @@ public class ProductMessageProducer {
                 .basketId(basketId)
                 .build();
 
-        productTemplate.convertAndSend(productMessage);
+        productTemplate.convertAndSend(RabbitMQConfig.PRODUCT_EXCHANGE, "product.update", productMessage);
 
         return ResponseEntity.ok().build();
     }
@@ -67,7 +68,7 @@ public class ProductMessageProducer {
                 .basketId(basketId)
                 .build();
 
-        productTemplate.convertAndSend(productMessage);
+        productTemplate.convertAndSend(RabbitMQConfig.PRODUCT_EXCHANGE, "product.remove", productMessage);
 
         return ResponseEntity.ok().build();
     }
