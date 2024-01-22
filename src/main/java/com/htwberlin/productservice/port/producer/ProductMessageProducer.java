@@ -4,6 +4,8 @@ import com.htwberlin.productservice.config.MQConfig.RabbitMQConfig;
 import com.htwberlin.productservice.core.domain.model.Product;
 import com.htwberlin.productservice.core.domain.service.impl.ProductService;
 import com.htwberlin.productservice.port.mapper.Mapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +16,8 @@ import java.util.UUID;
 @RestController
 @RequestMapping("v1/basket/")
 public class ProductMessageProducer {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ProductMessageProducer.class);
     private final RabbitTemplate productTemplate;
 
     private final ProductService productService;
@@ -31,6 +35,8 @@ public class ProductMessageProducer {
         Product product = productService.getProduct(UUID.fromString(productId));
 
         ProductMessage productMessage = Mapper.productToProductMessage(product, quantity, basketId);
+
+        LOGGER.info(String.format("Sending message -> %s", productMessage));
 
         productTemplate.convertAndSend(RabbitMQConfig.PRODUCT_EXCHANGE, "product.add", productMessage);
 
@@ -51,6 +57,8 @@ public class ProductMessageProducer {
                 .basketId(basketId)
                 .build();
 
+        LOGGER.info(String.format("Sending message -> %s", productMessage));
+
         productTemplate.convertAndSend(RabbitMQConfig.PRODUCT_EXCHANGE, "product.update", productMessage);
 
         return ResponseEntity.ok().build();
@@ -67,6 +75,8 @@ public class ProductMessageProducer {
                 .productId(productId)
                 .basketId(basketId)
                 .build();
+
+        LOGGER.info(String.format("Sending message -> %s", productMessage));
 
         productTemplate.convertAndSend(RabbitMQConfig.PRODUCT_EXCHANGE, "product.remove", productMessage);
 
