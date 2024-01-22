@@ -4,6 +4,10 @@ import com.htwberlin.productservice.core.domain.model.Product;
 import com.htwberlin.productservice.core.domain.service.exception.ProductNotFoundException;
 import com.htwberlin.productservice.core.domain.service.interfaces.IProductRepository;
 import com.htwberlin.productservice.core.domain.service.interfaces.IProductService;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -14,7 +18,7 @@ public class ProductService implements IProductService {
 
     private final IProductRepository productRepository;
 
-    ProductService(IProductRepository productRepository) {
+    public ProductService(IProductRepository productRepository) {
         this.productRepository = productRepository;
     }
 
@@ -23,6 +27,7 @@ public class ProductService implements IProductService {
     }
 
     @Override
+    @CachePut(value = {"productCache", "allProductsCache"})
     public Product updateProduct(Product product) throws ProductNotFoundException {
         if (!productRepository.existsById(product.getId())) {
             throw new ProductNotFoundException(product.getId());
@@ -31,11 +36,16 @@ public class ProductService implements IProductService {
     }
 
     @Override
+    @Caching(evict = {
+            @CacheEvict(value = "allProductsCache", allEntries = true),
+            @CacheEvict(value = "productCache", key = "#product.id")
+    })
     public void deleteProduct(Product product) {
         productRepository.delete(product);
     }
 
     @Override
+    @Cacheable(value = "productCache", key = "#id")
     public Product getProduct(UUID id) throws ProductNotFoundException {
         Optional<Product> retrievedProduct = productRepository.findById(id);
         return retrievedProduct.orElseThrow(() -> new ProductNotFoundException(id));
@@ -43,11 +53,13 @@ public class ProductService implements IProductService {
 
 
     @Override
+    @Cacheable("allProductsCache")
     public Iterable<Product> getAllProducts() {
         return productRepository.findAll();
     }
 
     @Override
+    @Cacheable("allProductsCache")
     public Iterable<Product> getProductsByKeyword(String keyword) {
         return productRepository.findByNameContainingIgnoreCase(keyword);
     }
