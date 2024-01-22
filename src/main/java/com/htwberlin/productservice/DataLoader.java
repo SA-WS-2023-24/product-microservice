@@ -154,6 +154,7 @@ public class DataLoader implements CommandLineRunner {
                 .product(product)
                 .content(content)
                 .publishedDate(randomDate())
+                .productId(product.getId())
                 .build();
     }
 }

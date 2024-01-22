@@ -20,19 +20,16 @@ public class ReviewService implements IReviewService {
 
 
     @Override
-    @Cacheable(value = "reviewsCache", key = "#review.id")
     public Review createReview(Review review) {
         return reviewRepository.save(review);
     }
 
     @Override
-    @CacheEvict(value = {"reviewsCache", "reviewsForProduct"}, key = "#review.id", allEntries = true)
     public void deleteReview(Review review) {
         reviewRepository.delete(review);
     }
 
     @Override
-    @Cacheable(value = "reviewsForProduct", key = "productId")
     public Iterable<Review> getAllReviewsForProduct(UUID productId) {
         return reviewRepository.findAllByProductId(productId);
     }
