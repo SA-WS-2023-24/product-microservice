@@ -1,5 +1,6 @@
 package com.htwberlin.productservice.port.user;
 
+import com.htwberlin.productservice.core.domain.model.Category;
 import com.htwberlin.productservice.core.domain.model.Product;
 import com.htwberlin.productservice.core.domain.service.interfaces.IProductService;
 import org.springframework.web.bind.annotation.*;
@@ -46,4 +47,9 @@ public class ProductController {
         return productService.getAllProducts();
     }
 
+    @GetMapping("/products/filter")
+    public @ResponseBody Iterable<Product> getByCategory(@RequestParam String category) {
+        Category cat = Category.valueOf(category.toUpperCase());
+        return productService.getProductsByCategory(cat);
+    }
 }

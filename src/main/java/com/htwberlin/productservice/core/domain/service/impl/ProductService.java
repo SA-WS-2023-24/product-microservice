@@ -1,5 +1,6 @@
 package com.htwberlin.productservice.core.domain.service.impl;
 
+import com.htwberlin.productservice.core.domain.model.Category;
 import com.htwberlin.productservice.core.domain.model.Product;
 import com.htwberlin.productservice.core.domain.service.exception.ProductNotFoundException;
 import com.htwberlin.productservice.core.domain.service.interfaces.IProductRepository;
@@ -62,5 +63,10 @@ public class ProductService implements IProductService {
     @Cacheable("allProductsCache")
     public Iterable<Product> getProductsByKeyword(String keyword) {
         return productRepository.findByNameContainingIgnoreCase(keyword);
+    }
+
+    @Override
+    public Iterable<Product> getProductsByCategory(Category category) {
+        return productRepository.findAllByCategory(category);
     }
 }
