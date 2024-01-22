@@ -2,57 +2,38 @@ package com.htwberlin.productservice.port.producer;
 
 import com.htwberlin.productservice.config.MQConfig.RabbitMQConfig;
 import com.htwberlin.productservice.core.domain.model.Product;
-import com.htwberlin.productservice.core.domain.service.impl.ProductService;
+import com.htwberlin.productservice.core.domain.service.interfaces.IProducer;
 import com.htwberlin.productservice.port.mapper.Mapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Component;
 
-import java.util.Map;
-import java.util.UUID;
-
-@RestController
-@RequestMapping("v1/basket/")
-public class ProductMessageProducer {
+@Component
+public class ProductMessageProducer implements IProducer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ProductMessageProducer.class);
     private final RabbitTemplate productTemplate;
 
-    private final ProductService productService;
-
-    public ProductMessageProducer(RabbitTemplate productTemplate, ProductService productService) {
+    public ProductMessageProducer(RabbitTemplate productTemplate) {
         this.productTemplate = productTemplate;
-        this.productService = productService;
     }
 
-    @PostMapping("/{basketId}/add-to-basket")
-    public ResponseEntity<?> publishAddToBasketEvent(@PathVariable String basketId, @RequestBody Map<String, Object> productJson) {
-        String productId = productJson.get("productId").toString();
-        int quantity = Integer.parseInt(productJson.get("quantity").toString());
 
-        Product product = productService.getProduct(UUID.fromString(productId));
-
+    @Override
+    public void produceAddToBasketEvent(Product product, String basketId, int quantity) {
         ProductMessage productMessage = Mapper.productToProductMessage(product, quantity, basketId);
 
         LOGGER.info(String.format("Sending message -> %s", productMessage));
 
         productTemplate.convertAndSend(RabbitMQConfig.PRODUCT_EXCHANGE, "product.add", productMessage);
-
-        return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/{basketId}/update-basket")
-    public ResponseEntity<?> publishUpdateBasketEvent(@PathVariable String basketId, @RequestBody Map<String, Object> jsonBody) {
-        String productId = jsonBody.get("productId").toString();
-        int quantity = Integer.parseInt(jsonBody.get("quantity").toString());
-
-        Product product = productService.getProduct(UUID.fromString(productId));
-
+    @Override
+    public void produceUpdateBasketEvent(Product product, String basketId, int quantity) {
         ProductMessage productMessage = ProductMessage
                 .builder()
-                .productId(productId)
+                .productId(product.getId().toString())
                 .quantity(quantity)
                 .basketId(basketId)
                 .build();
@@ -60,27 +41,17 @@ public class ProductMessageProducer {
         LOGGER.info(String.format("Sending message -> %s", productMessage));
 
         productTemplate.convertAndSend(RabbitMQConfig.PRODUCT_EXCHANGE, "product.update", productMessage);
-
-        return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/{basketId}/remove-from-basket")
-    public ResponseEntity<?> publishRemoveFromBasketEvent(@PathVariable String basketId, @RequestBody Map<String, Object> jsonBody) {
-        String productId = jsonBody.get("productId").toString();
-
-        Product product = productService.getProduct(UUID.fromString(productId));
-
-        ProductMessage productMessage = ProductMessage
-                .builder()
-                .productId(productId)
+    @Override
+    public void produceRemoveFromBasketEvent(Product product, String basketId) {
+        ProductMessage productMessage = ProductMessage.builder()
+                .productId(product.getId().toString())
                 .basketId(basketId)
                 .build();
 
-        LOGGER.info(String.format("Sending message -> %s", productMessage));
+        LOGGER.info(String.format("Sending message REMOVE -> %s", productMessage));
 
         productTemplate.convertAndSend(RabbitMQConfig.PRODUCT_EXCHANGE, "product.remove", productMessage);
-
-        return ResponseEntity.ok().build();
     }
-
 }
