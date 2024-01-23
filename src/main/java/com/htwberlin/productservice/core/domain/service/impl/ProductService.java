@@ -41,8 +41,14 @@ public class ProductService implements IProductService {
         return retrievedProduct.orElseThrow(() -> new ProductNotFoundException(id));
     }
 
+
     @Override
     public Iterable<Product> getAllProducts() {
         return productRepository.findAll();
+    }
+
+    @Override
+    public Iterable<Product> getProductsByKeyword(String keyword) {
+        return productRepository.findByNameContainingIgnoreCase(keyword);
     }
 }

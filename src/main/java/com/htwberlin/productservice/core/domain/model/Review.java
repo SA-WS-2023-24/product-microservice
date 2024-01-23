@@ -14,8 +14,6 @@ import java.util.UUID;
 @NoArgsConstructor
 @Builder
 @Entity
-@Getter
-@Setter
 @Table(name = "review")
 public class Review {
 

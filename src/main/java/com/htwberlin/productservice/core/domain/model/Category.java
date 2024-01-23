@@ -6,5 +6,9 @@ public enum Category {
     CPU,
     CASE,
     MOTHERBOARD,
-    MEMORY
+    RAM,
+    STORAGE,
+    COOLING,
+    PERIPHERAL,
+    POWER_SUPPLY
 }

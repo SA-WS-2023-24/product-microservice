@@ -1,4 +1,4 @@
-package com.htwberlin.productservice.user.controller;
+package com.htwberlin.productservice.port.user;
 
 import com.htwberlin.productservice.core.domain.model.Product;
 import com.htwberlin.productservice.core.domain.service.interfaces.IProductService;
@@ -21,6 +21,11 @@ public class ProductController {
         return productService.createProduct(product);
     }
 
+    @GetMapping("/product/search")
+    public @ResponseBody Iterable<Product> getByKeyword(@RequestParam String keyword) {
+        return productService.getProductsByKeyword(keyword);
+    }
+
     @GetMapping("/product/{id}")
     public Product getProduct(@PathVariable UUID id) {
         return productService.getProduct(id);
@@ -40,4 +45,5 @@ public class ProductController {
     public @ResponseBody Iterable<Product> getProducts() {
         return productService.getAllProducts();
     }
+
 }

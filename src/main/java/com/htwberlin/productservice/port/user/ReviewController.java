@@ -1,4 +1,4 @@
-package com.htwberlin.productservice.user.controller;
+package com.htwberlin.productservice.port.user;
 
 import com.htwberlin.productservice.core.domain.model.Review;
 import com.htwberlin.productservice.core.domain.service.interfaces.IReviewService;
