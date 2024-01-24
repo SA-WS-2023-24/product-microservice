@@ -10,7 +10,6 @@ import java.util.UUID;
 @RequestMapping("/v1/")
 public class ReviewController {
 
-
     private final IReviewService reviewService;
 
     public ReviewController(IReviewService reviewService) {

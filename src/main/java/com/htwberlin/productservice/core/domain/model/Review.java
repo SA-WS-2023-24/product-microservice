@@ -24,6 +24,7 @@ public class Review {
     private String content;
     private int stars;
     private LocalDateTime publishedDate;
+    private UUID productId;
 
     @ManyToOne
     @JoinColumn(foreignKey = @ForeignKey(name = "product_id"))

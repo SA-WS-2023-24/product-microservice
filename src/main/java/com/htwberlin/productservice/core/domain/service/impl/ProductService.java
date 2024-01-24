@@ -7,6 +7,7 @@ import com.htwberlin.productservice.core.domain.service.interfaces.IProductServi
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -26,7 +27,7 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    @CachePut(cacheNames = "productCache", key = "#product.id")
+    @CachePut(value = {"productCache", "allProductsCache"})
     public Product updateProduct(Product product) throws ProductNotFoundException {
         if (!productRepository.existsById(product.getId())) {
             throw new ProductNotFoundException(product.getId());
@@ -35,7 +36,10 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    @CacheEvict(cacheNames = {"productCache", "productsCache"}, key = "#product.id", beforeInvocation = true)
+    @Caching(evict = {
+            @CacheEvict(value = "allProductsCache", allEntries = true),
+            @CacheEvict(value = "productCache", key = "#product.id")
+    })
     public void deleteProduct(Product product) {
         productRepository.delete(product);
     }
@@ -49,12 +53,13 @@ public class ProductService implements IProductService {
 
 
     @Override
-    @Cacheable(value = "productsCache", key = "'allProducts'")
+    @Cacheable("allProductsCache")
     public Iterable<Product> getAllProducts() {
         return productRepository.findAll();
     }
 
     @Override
+    @Cacheable("allProductsCache")
     public Iterable<Product> getProductsByKeyword(String keyword) {
         return productRepository.findByNameContainingIgnoreCase(keyword);
     }
