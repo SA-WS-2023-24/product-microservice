@@ -19,6 +19,10 @@ spec:
           image: pcpartsshop/product-service:latest
           imagePullPolicy: IfNotPresent
           env:
+            - name: SPRING_DATA_REDIS_HOST
+              value: "redis"
+            - name: SPRING_DATA_REDIS_PORT
+              value: "6379"
             - name: SPRING_DATASOURCE_URL
               value: jdbc:postgresql://postgres:5432/postgres
             - name: SPRING_DATASOURCE_USERNAME
