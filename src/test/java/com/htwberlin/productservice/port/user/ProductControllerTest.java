@@ -22,11 +22,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -182,5 +183,64 @@ public class ProductControllerTest {
         String responseContent = result.getResponse().getContentAsString();
 
         assertEquals(notFoundResponse, responseContent);
+    }
+
+    @Test
+    void getByKeywordTest() throws Exception {
+        String keyword = "Product 1";
+        List<Product> expectedProducts = products.stream()
+                .filter(product -> product.getName().contains(keyword))
+                .collect(Collectors.toList());
+        when(productService.getProductsByKeyword(keyword)).thenReturn(expectedProducts);
+
+        String expectedJson = objectMapper.writeValueAsString(expectedProducts);
+
+        MvcResult result = mockMvc.perform(get("/v1/product/search")
+                        .param("keyword", keyword)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String responseContent = result.getResponse().getContentAsString();
+
+        assertEquals(expectedJson, responseContent);
+    }
+
+    @Test
+    void getByCategoryTest() throws Exception {
+        String category = "videocard";
+        Category expectedCategory = Category.VIDEOCARD;
+
+        List<Product> expectedProducts = products.stream()
+                .filter(product -> product.getCategory().equals(expectedCategory))
+                .collect(Collectors.toList());
+
+        when(productService.getProductsByCategory(Category.valueOf(category.toUpperCase()))).thenReturn(expectedProducts);
+
+        String expectedJson = objectMapper.writeValueAsString(expectedProducts);
+
+        MvcResult result = mockMvc.perform(get("/v1/products/filter")
+                        .param("category", category)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String responseContent = result.getResponse().getContentAsString();
+
+        assertEquals(expectedJson, responseContent);
+    }
+
+    @Test
+    void deleteProductTest() throws Exception {
+        Product product = products.get(0);
+        String productJson = objectMapper.writeValueAsString(product);
+
+        mockMvc.perform(delete("/v1/product/{id}", product.getId())
+                        .content(productJson)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        verify(productService, times(1)).deleteProduct(product);
     }
 }

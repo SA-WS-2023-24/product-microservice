@@ -1,5 +1,6 @@
 package com.htwberlin.productservice.core.domain.service.interfaces;
 
+import com.htwberlin.productservice.core.domain.model.Category;
 import com.htwberlin.productservice.core.domain.model.Product;
 import com.htwberlin.productservice.core.domain.service.exception.ProductNotFoundException;
 
@@ -18,4 +19,6 @@ public interface IProductService
     Iterable<Product> getAllProducts();
 
     Iterable<Product> getProductsByKeyword(String keyword);
+
+    Iterable<Product> getProductsByCategory(Category category);
 }

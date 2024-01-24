@@ -1,5 +1,6 @@
 package com.htwberlin.productservice.core.domain.service.impl;
 
+import com.htwberlin.productservice.core.domain.model.Category;
 import com.htwberlin.productservice.core.domain.model.Product;
 import com.htwberlin.productservice.core.domain.service.exception.ProductNotFoundException;
 import com.htwberlin.productservice.core.domain.service.interfaces.IProductRepository;
@@ -27,7 +28,7 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    @CachePut(value = {"productCache", "allProductsCache"})
+    @CachePut(value = {"productCache", "allProductsCache"}, key = "#product.id")
     public Product updateProduct(Product product) throws ProductNotFoundException {
         if (!productRepository.existsById(product.getId())) {
             throw new ProductNotFoundException(product.getId());
@@ -38,7 +39,8 @@ public class ProductService implements IProductService {
     @Override
     @Caching(evict = {
             @CacheEvict(value = "allProductsCache", allEntries = true),
-            @CacheEvict(value = "productCache", key = "#product.id")
+            @CacheEvict(value = "productCache", key = "#product.id"),
+            @CacheEvict(value = "categoryFilter", key = "#product.getCategory().name().toLowerCase()")
     })
     public void deleteProduct(Product product) {
         productRepository.delete(product);
@@ -53,14 +55,20 @@ public class ProductService implements IProductService {
 
 
     @Override
-    @Cacheable("allProductsCache")
+    @Cacheable(value = "allProductsCache", key = "'allProducts'")
     public Iterable<Product> getAllProducts() {
         return productRepository.findAll();
     }
 
     @Override
-    @Cacheable("allProductsCache")
+    @Cacheable(value = "allProductsCache", key = "#keyword")
     public Iterable<Product> getProductsByKeyword(String keyword) {
         return productRepository.findByNameContainingIgnoreCase(keyword);
+    }
+
+    @Override
+    @Cacheable(value = "categoryFilter", key = "#category.name().toLowerCase()")
+    public Iterable<Product> getProductsByCategory(Category category) {
+        return productRepository.findAllByCategory(category);
     }
 }

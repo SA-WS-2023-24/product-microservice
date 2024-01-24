@@ -4,15 +4,14 @@ import com.htwberlin.productservice.config.MQConfig.RabbitMQConfig;
 import com.htwberlin.productservice.core.domain.model.Product;
 import com.htwberlin.productservice.core.domain.service.interfaces.IProducer;
 import com.htwberlin.productservice.port.mapper.Mapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
+@Slf4j
 public class ProductMessageProducer implements IProducer {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ProductMessageProducer.class);
     private final RabbitTemplate productTemplate;
 
     public ProductMessageProducer(RabbitTemplate productTemplate) {
@@ -24,7 +23,7 @@ public class ProductMessageProducer implements IProducer {
     public void produceAddToBasketEvent(Product product, String basketId, int quantity) {
         ProductMessage productMessage = Mapper.productToProductMessage(product, quantity, basketId);
 
-        LOGGER.info(String.format("Sending message -> %s", productMessage));
+        log.info(String.format("Sending message -> %s", productMessage));
 
         productTemplate.convertAndSend(RabbitMQConfig.PRODUCT_EXCHANGE, "product.add", productMessage);
     }
@@ -38,7 +37,7 @@ public class ProductMessageProducer implements IProducer {
                 .basketId(basketId)
                 .build();
 
-        LOGGER.info(String.format("Sending message -> %s", productMessage));
+        log.info(String.format("Sending message -> %s", productMessage));
 
         productTemplate.convertAndSend(RabbitMQConfig.PRODUCT_EXCHANGE, "product.update", productMessage);
     }
@@ -50,7 +49,7 @@ public class ProductMessageProducer implements IProducer {
                 .basketId(basketId)
                 .build();
 
-        LOGGER.info(String.format("Sending message REMOVE -> %s", productMessage));
+        log.info(String.format("Sending message REMOVE -> %s", productMessage));
 
         productTemplate.convertAndSend(RabbitMQConfig.PRODUCT_EXCHANGE, "product.remove", productMessage);
     }
