@@ -32,7 +32,7 @@ public class DataLoader implements CommandLineRunner {
                         .name("AMD Ryzen 9 5900X CPU")
                         .price(new BigDecimal(549))
                         .category(Category.CPU)
-                        .imageLink("https://media2.nbb-cdn.de/images/products/originals/AMD_Ryzen_9_5000_Series_01_908e.jpg?size=400")
+                        .imageLink("https://www.amd.com/system/files/styles/992px/private/2020-09/616656-amd-ryzen-9-5000-series-PIB-1260x709_0.png?itok=flFMuxbT")
                         .description("High-performance 12-core processor for gaming and multitasking.")
                         .build(),
 
@@ -40,7 +40,7 @@ public class DataLoader implements CommandLineRunner {
                         .name("NVIDIA GeForce RTX 3070 Ti GPU")
                         .price(new BigDecimal(799))
                         .category(Category.VIDEOCARD)
-                        .imageLink("https://media2.nbb-cdn.de/images/products/originals/GeForce_RTX_3070_Ti_VENTUS_3X_8G_OC_box-card_2d9e.png?size=400")
+                        .imageLink("https://asset.msi.com/resize/image/global/product/product_1622528277a4c1902fbb975eefeda64faddf79653e.png62405b38c58fe0f07fcef2367d8a9ba1/1024.png")
                         .description("Powerful graphics card for smooth gaming and graphics-intensive tasks.")
                         .build(),
 
@@ -48,7 +48,7 @@ public class DataLoader implements CommandLineRunner {
                         .name("Corsair Vengeance LPX DDR4 RAM")
                         .price(new BigDecimal(129))
                         .category(Category.RAM)
-                        .imageLink("https://media2.nbb-cdn.de/images/products/originals/Corsair-Vengeance-LPX-DDR4-DIMM-Black-2er-Kit_25_de43.jpg?size=400")
+                        .imageLink("https://assets.corsair.com/image/upload/c_pad,q_auto,h_1024,w_1024,f_auto/products/Memory/CMK16GX4M2B3000C15/Gallery/VENG_LPX_BLK_01.webp?width=1080&quality=85&auto=webp&format=pjpg")
                         .description("Reliable and affordable DDR4 RAM for improved system performance.")
                         .build(),
 
@@ -56,7 +56,7 @@ public class DataLoader implements CommandLineRunner {
                         .name("Samsung 970 EVO Plus NVMe SSD")
                         .price(new BigDecimal(159))
                         .category(Category.STORAGE)
-                        .imageLink("https://media2.nbb-cdn.de/images/products/originals/Samsung_NVMe-970-EVO-Plus_1TB_Front_1e0c.jpg?size=400")
+                        .imageLink("https://images.samsung.com/is/image/samsung/p6pim/de/mz-v7s2t0bw/gallery/de-970-evo-plus-nvme-m2-ssd-mz-v7s2t0bw-503979813?$650_519_PNG$")
                         .description("Fast NVMe SSD with large storage capacity for quick data access.")
                         .build(),
 
@@ -64,7 +64,7 @@ public class DataLoader implements CommandLineRunner {
                         .name("ASUS ROG Crosshair VIII Hero Motherboard")
                         .price(new BigDecimal(399))
                         .category(Category.MOTHERBOARD)
-                        .imageLink("https://media2.nbb-cdn.de/images/products/originals/X670E_Hero_01-1_41c4.png?size=400")
+                        .imageLink("https://dlcdnwebimgs.asus.com/gain/71525821-7155-46D1-94E2-ED3E3C5BDD61/w1000/h732")
                         .description("High-end motherboard with premium features for gaming enthusiasts.")
                         .build(),
 
@@ -72,7 +72,7 @@ public class DataLoader implements CommandLineRunner {
                         .name("NZXT Kraken X73 Liquid Cooler")
                         .price(new BigDecimal(179))
                         .category(Category.COOLING)
-                        .imageLink("https://media2.nbb-cdn.de/images/products/originals/NZXT_Kraken_X63_RGB_01_e7dd.jpg?size=400")
+                        .imageLink("https://www.datocms-assets.com/34299/1615585055-kraken-x73frontbnwith-fanpurple.png")
                         .description("Efficient liquid cooling solution for optimal CPU temperature.")
                         .build(),
 
@@ -80,7 +80,7 @@ public class DataLoader implements CommandLineRunner {
                         .name("Western Digital Black 1TB")
                         .price(new BigDecimal(79))
                         .category(Category.STORAGE)
-                        .imageLink("https://media2.nbb-cdn.de/images/products/originals/WestDig_WD-Black_mobile_Game-1TB_Hero_81df.jpg?size=400")
+                        .imageLink("https://www.westerndigital.com/content/dam/store/en-us/assets/products/internal-storage/wd-black-desktop-sata-hdd/gallery/wd-black-desktop-500gb.png.wdthumb.1280.1280.webp")
                         .description("High-capacity HDD for additional storage needs.")
                         .build(),
 
@@ -96,7 +96,7 @@ public class DataLoader implements CommandLineRunner {
                         .name("SteelSeries Rival 600 Gaming Mouse")
                         .price(new BigDecimal(79))
                         .category(Category.PERIPHERAL)
-                        .imageLink("https://www.notebooksbilliger.de/steelseries+aerox+3+onyx+wireless+ultraleichte+gaming+maus2022+743654")
+                        .imageLink("https://media.steelseriescdn.com/thumbs/filer_public/a8/b6/a8b63d4f-f79f-406c-9c05-1d34ca44fbaf/03_rival600_kv_dual_hero.png__1850x800_crop-scale_optimize_subsampling-2.webp")
                         .description("Precision gaming mouse with customizable features for competitive play.")
                         .build(),
 
@@ -104,7 +104,7 @@ public class DataLoader implements CommandLineRunner {
                         .name("EVGA SuperNOVA 850 G5 Power Supply")
                         .price(new BigDecimal(129))
                         .category(Category.POWER_SUPPLY)
-                        .imageLink("https://www.notebooksbilliger.de/steelseries+aerox+3+onyx+wireless+ultraleichte+gaming+maus2022+743654")
+                        .imageLink("https://images.evga.com/products/gallery//png/220-G5-0850-X2_LG_1.png")
                         .description("High-efficiency power supply unit for stable and reliable performance.")
                         .build()
 
