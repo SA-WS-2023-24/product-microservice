@@ -77,10 +77,10 @@ public class DataLoader implements CommandLineRunner {
                         .build(),
 
                 Product.builder()
-                        .name("https://media2.nbb-cdn.de/images/products/originals/WestDig_WD-Black_mobile_Game-1TB_Hero_81df.jpg?size=400")
+                        .name("Western Digital Black 1TB")
                         .price(new BigDecimal(79))
                         .category(Category.STORAGE)
-                        .imageLink("https://example.com/hdd_image.jpg")
+                        .imageLink("https://media2.nbb-cdn.de/images/products/originals/WestDig_WD-Black_mobile_Game-1TB_Hero_81df.jpg?size=400")
                         .description("High-capacity HDD for additional storage needs.")
                         .build(),
 

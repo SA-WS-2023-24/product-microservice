@@ -19,16 +19,11 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "product_id")
     private UUID id;
-
     private String name;
-
     private BigDecimal price;
-
     private String imageLink;
-
     @Column(name = "description", length = 2500)
     private String description;
-
     @Enumerated(EnumType.STRING)
     private Category category;
 }
