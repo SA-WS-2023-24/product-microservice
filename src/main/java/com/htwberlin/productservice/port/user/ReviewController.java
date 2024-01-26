@@ -8,6 +8,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/v1/")
+@CrossOrigin
 public class ReviewController {
 
     private final IReviewService reviewService;
