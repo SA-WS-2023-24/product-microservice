@@ -1,4 +1,4 @@
-package com.htwberlin.productservice;
+package com.htwberlin.productservice.boot;
 
 import com.htwberlin.productservice.core.domain.model.Category;
 import com.htwberlin.productservice.core.domain.model.Product;
