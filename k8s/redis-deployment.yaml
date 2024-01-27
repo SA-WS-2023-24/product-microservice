@@ -14,6 +14,10 @@ spec:
     spec:
       containers:
         - name: redis
-          image: redis:7.0
+          image: redislabs/redismod
           ports:
             - containerPort: 6379
+          command: ["redis-server"]
+          args:
+            - "--loadmodule /usr/lib/redis/modules/redisearch.so"
+            - "--appendonly yes"
