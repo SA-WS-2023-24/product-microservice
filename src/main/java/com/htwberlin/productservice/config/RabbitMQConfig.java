@@ -1,4 +1,4 @@
-package com.htwberlin.productservice.config.MQConfig;
+package com.htwberlin.productservice.config;
 
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;

@@ -1,6 +1,6 @@
 package com.htwberlin.productservice.port.producer;
 
-import com.htwberlin.productservice.config.MQConfig.RabbitMQConfig;
+import com.htwberlin.productservice.config.RabbitMQConfig;
 import com.htwberlin.productservice.core.domain.model.Product;
 import com.htwberlin.productservice.core.domain.service.interfaces.IProducer;
 import com.htwberlin.productservice.port.mapper.Mapper;
