@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: postgres-pv-claim
+  name: product-pv-claim
   labels:
     app: postgres
     tier: database
@@ -47,8 +47,8 @@ spec:
               name: postgres
           volumeMounts:
             - mountPath: /var/lib/postgresql/product
-              name: postgres-persistance-storage
+              name: product-persistance-storage
       volumes:
-        - name: postgres-persistance-storage
+        - name: product-persistance-storage
           persistentVolumeClaim:
-            claimName: postgres-pv-claim
+            claimName: product-pv-claim
