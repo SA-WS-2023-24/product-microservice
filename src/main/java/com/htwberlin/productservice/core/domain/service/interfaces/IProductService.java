@@ -12,7 +12,7 @@ public interface IProductService
 
     Product updateProduct (Product product) throws ProductNotFoundException;
 
-    void deleteProduct (Product product);
+    void deleteProduct (UUID id);
 
     Product getProduct(UUID id) throws ProductNotFoundException;
 

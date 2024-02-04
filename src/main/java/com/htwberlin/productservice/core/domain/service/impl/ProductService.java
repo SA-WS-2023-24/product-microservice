@@ -6,7 +6,6 @@ import com.htwberlin.productservice.core.domain.service.exception.ProductNotFoun
 import com.htwberlin.productservice.core.domain.service.interfaces.IProductRepository;
 import com.htwberlin.productservice.core.domain.service.interfaces.IProductService;
 import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
@@ -23,12 +22,14 @@ public class ProductService implements IProductService {
         this.productRepository = productRepository;
     }
 
+    @Override
+    @CacheEvict(value = {"products_all", "products_id", "products_search", "products_category"}, allEntries = true)
     public Product createProduct(Product product) {
         return productRepository.save(product);
     }
 
     @Override
-    @CachePut(value = {"productCache", "allProductsCache"}, key = "#product.id")
+    @CacheEvict(value = {"products_all", "products_id", "products_search", "products_category"}, allEntries = true)
     public Product updateProduct(Product product) throws ProductNotFoundException {
         if (!productRepository.existsById(product.getId())) {
             throw new ProductNotFoundException(product.getId());
@@ -37,17 +38,15 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    @Caching(evict = {
-            @CacheEvict(value = "allProductsCache", allEntries = true),
-            @CacheEvict(value = "productCache", key = "#product.id"),
-            @CacheEvict(value = "categoryFilter", key = "#product.getCategory().name().toLowerCase()")
-    })
-    public void deleteProduct(Product product) {
-        productRepository.delete(product);
+    @CacheEvict(value = {"products_all", "products_id", "products_search", "products_category"}, allEntries = true)
+    public void deleteProduct(UUID id) {
+        if (productRepository.existsById(id)) {
+            productRepository.deleteById(id);
+        }
     }
 
     @Override
-    @Cacheable(value = "productCache", key = "#id")
+    @Cacheable(value = "products_id", key = "#id")
     public Product getProduct(UUID id) throws ProductNotFoundException {
         Optional<Product> retrievedProduct = productRepository.findById(id);
         return retrievedProduct.orElseThrow(() -> new ProductNotFoundException(id));
@@ -55,19 +54,19 @@ public class ProductService implements IProductService {
 
 
     @Override
-    @Cacheable(value = "allProductsCache", key = "'allProducts'")
+    @Cacheable(value = "products_all")
     public Iterable<Product> getAllProducts() {
         return productRepository.findAll();
     }
 
     @Override
-    @Cacheable(value = "allProductsCache", key = "#keyword")
+    @Cacheable(value = "products_search", key = "#keyword")
     public Iterable<Product> getProductsByKeyword(String keyword) {
         return productRepository.findByNameContainingIgnoreCase(keyword);
     }
 
     @Override
-    @Cacheable(value = "categoryFilter", key = "#category.name().toLowerCase()")
+    @Cacheable(value = "products_category", key = "#category.name().toLowerCase()")
     public Iterable<Product> getProductsByCategory(Category category) {
         return productRepository.findAllByCategory(category);
     }

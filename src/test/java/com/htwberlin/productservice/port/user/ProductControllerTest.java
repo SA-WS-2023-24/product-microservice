@@ -233,14 +233,12 @@ public class ProductControllerTest {
     @Test
     void deleteProductTest() throws Exception {
         Product product = products.get(0);
-        String productJson = objectMapper.writeValueAsString(product);
 
         mockMvc.perform(delete("/v1/product/{id}", product.getId())
-                        .content(productJson)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andReturn();
 
-        verify(productService, times(1)).deleteProduct(product);
+        verify(productService, times(1)).deleteProduct(product.getId());
     }
 }

@@ -39,8 +39,8 @@ public class ProductController {
     }
 
     @DeleteMapping(path = "/product/{id}")
-    public @ResponseBody void delete(@RequestBody Product product) {
-        productService.deleteProduct(product);
+    public @ResponseBody void delete(@PathVariable UUID id) {
+        productService.deleteProduct(id);
     }
 
     @GetMapping("/products")
